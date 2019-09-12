@@ -47,4 +47,4 @@ class EventSerializer(serializers.ModelSerializer):
     user_list = UserSerializer(many=True, read_only=True)
     class Meta:
         model = Event
-        fields = ['id', 'name', 'time', 'place', 'points', 'code', 'user_list']
+        fields = ['id', 'name', 'time', 'place', 'points', 'code', 'user_list', 'description']

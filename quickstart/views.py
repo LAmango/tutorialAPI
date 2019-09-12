@@ -40,3 +40,18 @@ class EventViewSet(viewsets.ModelViewSet):
     #permission_classes = (IsAuthenticated,)
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+    @action(methods=['get'], detail=True)
+    def get_code(self,  request, pk=None):
+        if request.data:
+            event = self.get_object()
+            ev = EventSerializer(event)
+            if ev.data['code']:
+                if request.data['code'] == ev.data['code']:
+                    return Response({'it': 'worked!'})
+                else:
+                    return Response({'wrong': 'code!'})
+            else:
+                return Response({'no':'code is set!'})
+        else:
+            return Response({'no req': 'given'})

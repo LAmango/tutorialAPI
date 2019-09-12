@@ -7,6 +7,7 @@ class Event(models.Model):
     place = models.CharField(max_length = 180)
     code = models.CharField(max_length = 20, blank=True)
     points = models.IntegerField(default = 0)
+    descriptions = models.TextField(blank=True)
 
     class Meta:
         ordering = ('time',)
