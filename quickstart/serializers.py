@@ -3,6 +3,7 @@ from .models import Event, CustomUser
 from django.conf import settings
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
+from rest_auth.models import TokenModel
 from allauth.account.adapter import get_adapter
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -47,4 +48,11 @@ class EventSerializer(serializers.ModelSerializer):
     user_list = UserSerializer(many=True, read_only=True)
     class Meta:
         model = Event
-        fields = ['id', 'name', 'time', 'place', 'points', 'code', 'user_list', 'description']
+        fields = ['id', 'name', 'time', 'place', 'points', 'code', 'description', 'user_list']
+
+class TokenSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = TokenModel
+        fields = ['key', 'user']

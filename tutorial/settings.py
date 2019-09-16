@@ -143,6 +143,7 @@ STATIC_URL = '/static/'
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'quickstart.serializers.UserSerializer',
+    'TOKEN_SERIALIZER': 'quickstart.serializers.TokenSerializer',
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {

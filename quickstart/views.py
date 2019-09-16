@@ -4,6 +4,8 @@ from quickstart.serializers import UserSerializer, GroupSerializer, EventSeriali
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 
@@ -25,6 +27,17 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'points': 'totaled'})
         else:
             return Response(serializer.errors)
+
+    @action(detail=True, methods=['PATCH'])
+    def add_event(self, request, pk=None):
+        """
+        Patch event to add event to users list
+        """
+        user = self.get_object()
+        event = Event.objects.get(id=request.data['id'])
+        user.events.add(event)
+        user.save()
+        return Response({'it':'worked!'})
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
@@ -48,10 +61,24 @@ class EventViewSet(viewsets.ModelViewSet):
             ev = EventSerializer(event)
             if ev.data['code']:
                 if request.data['code'] == ev.data['code']:
-                    return Response({'it': 'worked!'})
+                    return Response({'status': 'it worked'})
                 else:
-                    return Response({'wrong': 'code!'})
+                    return Response({'status': 'wrong code'})
             else:
-                return Response({'no':'code is set!'})
+                return Response({'status':'no code is set'})
         else:
-            return Response({'no req': 'given'})
+            return Response({'status': 'no request object given'})
+
+class CustomAuthToken(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'user_id': user.pk,
+            'email': user.email
+        })
