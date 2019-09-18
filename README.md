@@ -9,10 +9,10 @@ To login: ```/rest-auth/login```
 
 requires body:
 
-{"email": "lucas", "password": "puppies"}
+```{"email": "lucas", "password": "puppies"}```
 
 Register: ```/rest-auth/register```
 
 requires body:
 
-{"username": "", "email": "", "password1": "", "password2", "", "organization": ""}
+```{"username": "", "email": "", "password1": "", "password2", "", "organization": ""}```
