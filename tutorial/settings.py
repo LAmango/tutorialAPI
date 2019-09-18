@@ -53,7 +53,19 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SITE_ID = 1
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+
 AUTH_USER_MODEL = 'quickstart.CustomUser'
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -144,6 +156,7 @@ STATIC_URL = '/static/'
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'quickstart.serializers.UserSerializer',
     'TOKEN_SERIALIZER': 'quickstart.serializers.TokenSerializer',
+    #'LOGIN_SERIALIZER': 'quickstart.serializers.LoginSerializer',
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {

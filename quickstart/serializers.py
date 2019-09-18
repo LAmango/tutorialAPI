@@ -3,6 +3,7 @@ from .models import Event, CustomUser
 from django.conf import settings
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
+from rest_auth.serializers import LoginSerializer
 from rest_auth.models import TokenModel
 from allauth.account.adapter import get_adapter
 
@@ -42,6 +43,18 @@ class CustomRegisterSerializer(RegisterSerializer):
             user.save()
             adapter.save_user(request, user, self)
             return user
+
+class LoginSerializer(LoginSerializer):
+    def get_fields(self):
+        fields = super(LoginSerializer, self).get_fields()
+        fields['email'] = fields['username']
+        del fields['username']
+        return fields
+
+    def validate(self, attrs):
+        attrs['username'] = attrs['email']
+        del attrs['email']
+        return super(LoginSerializer, self).validate(attrs)
 
 class EventSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
