@@ -1,7 +1,7 @@
 #API documentation
 
 To make a request for all users: 
-```/user/``` 
+```/user/```  
 Request for all events: 
 ```/events/``` 
 For a specific event or user: 
