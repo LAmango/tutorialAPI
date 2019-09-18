@@ -5,5 +5,5 @@ To make a request for all users:
 Request for all events: 
 ```/events/```  
 For a specific event or user: ```/events/1``` or ```/users/1```  
-To login: ```/rest-auth/login``` a 
+To login: ```/rest-auth/login```  
 Register: ```/rest-auth/register```
